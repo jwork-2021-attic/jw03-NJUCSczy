@@ -1,0 +1,67 @@
+@startuml
+class Sorter{
+    public void load()
+    public void sort()
+    public String getPlan()
+}
+
+class BubbleSorter{
+    int[] a
+    String plan
+    void swap()
+}
+
+class QuickSorter{
+    int[] a
+    String plan
+    void part_swap()
+    void swap()
+}
+
+interface Linable{
+    public void setPosition()
+    public Position getPosition()
+    public int getValue()
+}
+
+class Monster{
+    int r
+    int g
+    int b
+    int rank
+    Position position
+    static Monster[] monsters
+    private void Monsters()
+    static void init_monsters()
+    static void swapPosition()
+    @override String toString()
+}
+
+class Line{
+    Position[] positions
+    void put()
+    void get()
+    
+}
+
+class Position{
+    Linable linable
+    void setLinable()
+}
+
+class Boss{
+    static Boss theBoss
+    Sorter sorter
+    void setSorter()
+    String lineUp()
+    String[] parsePlan()
+    void execute()
+}
+
+BubbleSorter --|> Sorter :拓展
+QuickSorter --|> Sorter:拓展
+Monster --|> Linable:拓展
+Position --* Line:内部类
+Monster -- Position:聚合
+Boss *-- Sorter:聚合
+@enduml

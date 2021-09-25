@@ -1,0 +1,45 @@
+@startuml
+actor Line as line #black
+actor theGeezer as Geezer #grey
+actor sorter as sorter #red
+actor log as log #blue
+actor writer as writer #yellow
+
+line -> line
+note right
+    初始化7个排序对象
+end note
+
+line -> line
+note right
+    将七个葫芦娃的顺序初始化7,3,5,2,6,4,1
+end note
+
+Geezer -> Geezer
+note right
+    调用getGeezer，
+    初始化单例
+end note
+
+sorter -> sorter
+note right
+    初始化BubbleSorter
+end note
+
+Geezer -> sorter
+note right
+    调用setSorter函数，
+    将自身的成员函数sorter设置为main函数中的sorter
+end note
+
+Geezer -> log
+note right
+    调用setSorter中的冒泡排序法，
+    将葫芦娃排序，并且将每一步交换过程存入log
+end note
+
+log -> writer
+note left
+    将log中的内容输出到result.txt
+end note
+@enduml
