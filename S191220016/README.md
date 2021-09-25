@@ -8,10 +8,12 @@
 # 二、图片URL
 
 QuickSort:   
-    `file:/S191220016.QuickSorter.png` 
-
+    `file:/S191220016.QuickSorter.png`   
+    ![](../S191220016.QuickSorter.png)  
+      
 ShellSort:   
-    `file:/S191220016.ShellSorter.png`
+    `file:/S191220016.ShellSorter.png`  
+    ![](../S191220016.ShellSorter.png)  
 
 *注意：由于package限制，这两个图片加密的class只能在S191220016文件夹下的Scene.java中运行，在example中无法直接使用
 
