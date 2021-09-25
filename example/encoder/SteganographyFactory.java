@@ -9,6 +9,7 @@ import javax.tools.ToolProvider;
 
 import java.awt.image.BufferedImage;
 
+
 public class SteganographyFactory {
 
     private static void compile(String classSource) {

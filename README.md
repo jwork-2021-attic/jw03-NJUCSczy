@@ -1,40 +1,26 @@
-[![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-f059dc9a6f8d3a56e377f745f24479a46679e63a5d9fe6f495e02850cd0d8118.svg)](https://classroom.github.com/online_ide?assignment_repo_id=5733850&assignment_repo_type=AssignmentRepo)
-# W03
+# 一、思路分析
+首先根据Scene.java推知，被修改后的图片中隐含了一个.class文件的信息，在main函数中从这张图片中按一定规则读取出这个类并且创建类对象，最后用这个类对象进行排序操作。  
+而执行加密操作的main函数，在example.encoder.SteganographyFactory类中。在其main函数中调用的getSteganography函数里，通过作为参数传进来的图片URL参数，读取了图片信息，并将图片内容作为参数传递调用了位于example.encoder.SteganographyEncoder类中的encoderFile函数。在此函数中，简而言之，将“文件名长度（4字节） + 文件长度（4字节） + 文件名 + 文件内容”转换成字符串，再转化为若干个byte，再将每个byte拆分为若干个二进制数，依次存入图片上每个像素点的三原色值的最后一个二进制位。最后按照文件名，将修改后的图片保存。  
+由于修改后的每一个像素点颜色只发生了微小变化，所以肉眼看不出来。当这些完成之后，在运行Scene时便可以调用decode函数来解密，将之前的class信息从图片中还原出来。在修改了example.encoder.SteganographyEncoder中的decode()函数后（修改为读取出文件长度后，再读取等同于文件长度的字节数，并且将返回值中的前(8 + 文件名长度)个字节舍弃），便可以正确返回之前存储在图片里的class数据了。最后在Scene的main函数中，便可以构造一个这个class的对象，用其进行排序操作。  
+  
+*在阅读代码过程中我注意到，文件长度信息存储在加密信息中的4~7字节处，占用4字节。如果文件长度超过4字节表示的整数范围（虽然可能性很小），那么即使图片的像素点数量足够存储文件，也会出现错误。
 
-下图中有一些泡泡
+# 二、图片URL
 
-![](https://raw.githubusercontent.com/jwork-2021/jw03/main/example/resources/bubble.jpeg)
+QuickSort:   
+    `file:/S191220016.QuickSorter.png` 
 
+ShellSort:   
+    `file:/S191220016.ShellSorter.png`
 
-下图中也有一些泡泡
+*注意：由于package限制，这两个图片加密的class只能在我的W02的S191220016文件夹下的Scene.java中运行，在本次作业的Scene中无法直接运行
 
-![](https://raw.githubusercontent.com/jwork-2021/jw03/main/example.BubbleSorter.png)
+# 三、排序视频
 
-这两张图你看得出区别么？你应该是看不出来的。但其实两张图并不一样，后者为一张“隐写术图”（[Steganography](https://zh.wikipedia.org/zh/隐写术))。
+QuickSort:
+    [![asciicast](https://asciinema.org/a/437900.svg)](https://asciinema.org/a/437900)
+ShellSort:
+    [![asciicast](https://asciinema.org/a/437901.svg)](https://asciinema.org/a/437901)
 
-我将一个实现冒泡排序的BubbleSorter类的字节码编码进了第一张泡泡图片中，得到了第二张图。为了方便起见，图片被放置在`"https://cdn.njuics.cn/example.BubbleSorter.png`这个地方。
-
-然后`W02`中的`Scene.main()`中的代码即可进行改写：
-
-```java
-...
-    Geezer theGeezer = Geezer.getTheGeezer();
-
-    SteganographyClassLoader loader = new SteganographyClassLoader(
-            new URL("https://cdn.njuics.cn/example.BubbleSorter.png"));
-
-    Class c = loader.loadClass("example.BubbleSorter");
-
-    Sorter sorter = (Sorter) c.newInstance();
-
-    theGeezer.setSorter(sorter);
-...
-```
-
-请尝试运行example（注意`lib`目录下存在一个jar文件，需要被包含在工程的classpath中）仔细阅读example中的代码，理解其含义，撰写一个markdown文件，完成以下任务：
-
-1. 写下对代码工作原理的理解；
-2. 将自己在`W02`中实现的两个排序算法（冒泡排序除外）分别编码进自选图片得到隐写术图，在markdown中给出两个图片的URL；
-3. 用你的图片给`W02`中example的老头赋予排序能力，得到排序结果（动画），上传动画到asciinema，在markdown中给出两个动画的链接。
-4. 联系另一位同学，用他的图片给`W02`中example的老头赋予排序能力，在markdown中记录你用的谁的图片，得到结果是否正确。
-
+# 四、交换测试
+    等待其他人ing

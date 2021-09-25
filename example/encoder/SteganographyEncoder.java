@@ -170,7 +170,33 @@ public class SteganographyEncoder {
 
         // TODO: Optimize this code to decode only needed number of bytes and not the
         // whole byte array
-        for (int i = 0; i < maxNoOfBytes; i++) {
+        
+        byte[] tempBytes=new byte[8];
+        for (int i = 0; i < 8; i++) {
+            byte oneByte = 0;
+            while (charOffset < 8) {
+                if (curColor < 0) {
+                    curColor = 2;
+                    curPix++;
+                }
+                char temp = (char) (pixels[curPix] >> (8 * curColor) & smallMask);
+                oneByte |= temp << 8 - bitsFromColor - charOffset;
+
+                charOffset += bitsFromColor;
+                curColor--;
+            }
+            tempBytes[i] = oneByte;
+            charOffset %= 8;
+        }
+
+        int length1=byteArrayToInt(Arrays.copyOfRange(tempBytes, 0, 4));
+        int length2=byteArrayToInt(Arrays.copyOfRange(tempBytes, 4, 8));
+
+        curColor = 2;
+        curPix = 0;
+        charOffset = 0;
+
+        for (int i = 0; i < 8+length1+length2; i++) {
             byte oneByte = 0;
             while (charOffset < 8) {
                 if (curColor < 0) {
@@ -186,7 +212,9 @@ public class SteganographyEncoder {
             result[i] = oneByte;
             charOffset %= 8;
         }
-        return result;
+        byte[] result1=new byte[length2];
+        System.arraycopy(result, 8+length1, result1, 0, length2);
+        return result1;
     }
 
     private void checkBitsFromColor(int bitsFromColor) {
