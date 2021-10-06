@@ -25,4 +25,4 @@ ShellSort:
     [![asciicast](https://asciinema.org/a/437901.svg)](https://asciinema.org/a/437901)
 
 # 四、交换测试
-    等待其他人ing
+    测试了学号为191220109的王珺同学的代码，测试均无误。
